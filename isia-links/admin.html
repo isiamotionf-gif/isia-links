@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel ISIA MOTION</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#150a06">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="shared.css">
+<style>
+.admin{max-width:480px;margin:0 auto;padding-top:28px;padding-bottom:130px}
+.admin[hidden],.login[hidden]{display:none}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:.18em;text-transform:uppercase}
+.ghost{font:inherit;font-size:13px;font-weight:700;color:var(--cream);background:transparent;border:1px solid var(--line);border-radius:12px;padding:9px 14px;cursor:pointer;text-decoration:none;display:inline-block}
+.note{margin:18px 0 0;padding:14px 16px;border-radius:16px;background:rgba(200,128,63,.12);border:1px solid var(--line);font-size:13px;color:var(--gold)}
+.note.err{background:rgba(190,60,40,.16);border-color:rgba(230,110,90,.5);color:#ffd2c8}
+.ed-h{margin:28px 0 10px;font-family:var(--display);font-size:24px;font-weight:700;letter-spacing:.06em}
+.hint{margin:-4px 0 0;font-size:13px;color:rgba(246,230,211,.6)}
+.box{background:var(--bg-2);border:1px solid var(--line);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld>span,.lab{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+input[type=text],input[type=email],input[type=password],input[type=url],textarea{width:100%;font:inherit;font-size:16px;color:var(--cream);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 13px}
+input::placeholder{color:rgba(246,230,211,.38)}
+.row-top{display:flex;align-items:center;gap:12px}
+.mini{flex:none;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--c-bg);color:var(--c-fg);border:1px solid var(--c-line)}
+.mini svg{width:22px;height:22px}
+.row-top .ttl{flex:1;min-width:0;font-weight:800;overflow-wrap:anywhere}
+.row-top .ttl small{display:block;font-weight:500;font-size:12px;color:rgba(246,230,211,.55)}
+.ibtn{flex:none;width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--cream);display:grid;place-items:center;cursor:pointer}
+.ibtn svg{width:18px;height:18px}
+.ibtn:disabled{opacity:.3;cursor:default}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.pick{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--cream);display:grid;place-items:center;cursor:pointer}
+.pick svg{width:20px;height:20px}
+.pick[aria-pressed="true"]{border-color:var(--gold);background:rgba(200,128,63,.28);box-shadow:0 0 0 1px var(--gold)}
+.sw{width:44px;height:44px;border-radius:50%;border:2px solid transparent;cursor:pointer;background:var(--c-bg)}
+.sw[aria-pressed="true"]{border-color:var(--cream);box-shadow:0 0 0 2px var(--bg-2),0 0 0 4px var(--gold)}
+.vis{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px}
+.vis input{width:20px;height:20px;accent-color:var(--copper)}
+.bgs{display:flex;gap:10px;flex-wrap:wrap}
+.bgp{width:84px;height:84px;border-radius:16px;overflow:hidden;border:2px solid transparent;padding:0;background:var(--field);cursor:pointer}
+.bgp img{width:100%;height:100%;object-fit:cover;display:block}
+.bgp[aria-pressed="true"]{border-color:var(--gold)}
+.up{position:relative;display:flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:16px;border:1px dashed var(--line);color:var(--gold);font-size:12px;font-weight:700;text-align:center;cursor:pointer;padding:6px;line-height:1.2}
+.up input{position:absolute;opacity:0;width:1px;height:1px}
+.up:focus-within{outline:2px solid var(--gold);outline-offset:3px}
+.btn{font:inherit;font-weight:800;font-size:14px;padding:14px 18px;border-radius:16px;border:1px dashed var(--gold);background:transparent;color:var(--gold);cursor:pointer;width:100%}
+.btn.solid{border:0;background:var(--cream);color:var(--ink)}
+.btn.small{width:auto;align-self:flex-start;padding:11px 16px;border-style:solid}
+.status{min-height:22px;margin:14px 0 0;font-size:13px;color:var(--gold)}
+.status button{font:inherit;font-weight:800;color:var(--cream);background:none;border:0;text-decoration:underline;cursor:pointer;padding:2px 4px}
+.login{max-width:420px;margin:0 auto;padding-top:12vh;padding-bottom:40px}
+.login h1{font-size:28px;text-align:left;padding-left:0}
+.login form{margin-top:22px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding-top:12px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--bg) 70%,rgba(21,10,6,0))}
+.bar-in{max-width:480px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.bar .state{flex:1;min-width:0;font-size:12px;color:rgba(246,230,211,.65);line-height:1.3}
+.bar .state.dirty{color:var(--gold);font-weight:700}
+.bar .btn{width:auto;flex:none;padding:14px 22px}
+.bar .btn:disabled{opacity:.5;cursor:default}
+</style>
+</head>
+<body>
+
+<!-- Entrar -->
+<section class="login inner" id="login" hidden>
+  <h1>Painel</h1>
+  <p class="tag" style="text-align:left">ISIA MOTION · só para o dono da loja</p>
+  <div class="note err" id="cfgWarn" hidden>O site ainda não está ligado ao banco de dados. Preencha o arquivo config.js (passo a passo no LEIA-ME.md).</div>
+  <form id="loginForm" class="box" style="margin-top:22px" novalidate>
+    <label class="fld" for="email"><span>E-mail</span><input id="email" type="email" autocomplete="username" inputmode="email"></label>
+    <label class="fld" for="pass"><span>Senha</span><input id="pass" type="password" autocomplete="current-password"></label>
+    <button class="btn solid" type="submit" id="loginBtn">Entrar</button>
+    <p class="status" id="loginMsg" role="status" aria-live="polite" style="margin:0"></p>
+  </form>
+</section>
+
+<!-- Editor -->
+<main class="admin inner" id="admin" hidden>
+  <div class="top">
+    <span class="brand">Painel</span>
+    <span style="display:flex;gap:8px">
+      <a class="ghost" href="./" target="_blank" rel="noopener">Ver página</a>
+      <button class="ghost" type="button" id="logout">Sair</button>
+    </span>
+  </div>
+  <p class="note" id="loadNote" hidden></p>
+
+  <h2 class="ed-h">Loja</h2>
+  <div class="box">
+    <label class="fld" for="f-name"><span>Nome da loja</span><input id="f-name" type="text" autocomplete="off"></label>
+    <label class="fld" for="f-tag"><span>Frase abaixo do nome</span><input id="f-tag" type="text" autocomplete="off"></label>
+    <div class="fld"><span class="lab" id="bg-lab">Fundo da capa</span><div class="bgs" id="bgs" role="group" aria-labelledby="bg-lab"></div></div>
+  </div>
+
+  <h2 class="ed-h">Atalhos</h2>
+  <p class="hint">Preencha e toque em aplicar. O link certo é montado para você.</p>
+  <div class="box" style="margin-top:12px">
+    <label class="fld" for="sc-num"><span>WhatsApp, com DDD</span><input id="sc-num" type="text" inputmode="tel" placeholder="(11) 99999-9999" autocomplete="off"></label>
+    <label class="fld" for="sc-msg"><span>Mensagem que já vai escrita</span><input id="sc-msg" type="text" placeholder="Oi! Vim pelo Instagram" autocomplete="off"></label>
+    <button class="btn small" type="button" id="sc-wa">Aplicar no botão do WhatsApp</button>
+    <label class="fld" for="sc-addr"><span>Endereço da loja</span><input id="sc-addr" type="text" placeholder="Rua, número, bairro, cidade" autocomplete="off"></label>
+    <button class="btn small" type="button" id="sc-map">Aplicar no botão de localização</button>
+  </div>
+
+  <h2 class="ed-h">Links</h2>
+  <div id="list" style="display:flex;flex-direction:column;gap:14px"></div>
+  <button class="btn" id="add" type="button" style="margin-top:14px">+ Adicionar link</button>
+  <p class="status" id="status" role="status" aria-live="polite"></p>
+</main>
+
+<div class="bar inner" id="bar" hidden>
+  <div class="bar-in">
+    <p class="state" id="saveState" style="margin:0" role="status" aria-live="polite">Tudo publicado.</p>
+    <button class="btn solid" type="button" id="save">Salvar e publicar</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="shared.js"></script>
+<script>
+(function () {
+  var I = ISIA;
+  var sb = I.client();
+  var state = I.defaults();
+  var lastDeleted = null, dirty = false;
+
+  function $(s) { return document.querySelector(s); }
+  var UP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>';
+  var DOWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  var TRASH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>';
+
+  function setStatus(t, html) { var s = $('#status'); if (html) s.innerHTML = t; else s.textContent = t; }
+  function markDirty() {
+    dirty = true;
+    var s = $('#saveState'); s.textContent = 'Há mudanças que ainda não estão no ar.'; s.className = 'state dirty';
+    $('#save').disabled = false;
+  }
+  function markClean(msg) {
+    dirty = false;
+    var s = $('#saveState'); s.textContent = msg || 'Tudo publicado.'; s.className = 'state';
+  }
+  function byId(id) { for (var i = 0; i < state.links.length; i++) if (state.links[i].id === id) return i; return -1; }
+
+  /* ---------- telas ---------- */
+  function showLogin() {
+    $('#login').hidden = false; $('#admin').hidden = true; $('#bar').hidden = true;
+    $('#cfgWarn').hidden = !!sb;
+  }
+  function showEditor() {
+    $('#login').hidden = true; $('#admin').hidden = false; $('#bar').hidden = false;
+    fill();
+    loadData();
+  }
+
+  function loadData() {
+    var note = $('#loadNote');
+    sb.from('pagina').select('dados').eq('id', 1).maybeSingle().then(function (r) {
+      if (r.error) {
+        note.hidden = false; note.className = 'note err';
+        note.textContent = 'Não consegui ler os dados. Confira se rodou o arquivo supabase.sql. (' + r.error.message + ')';
+        return;
+      }
+      if (r.data && r.data.dados) {
+        state = I.normalize(r.data.dados); note.hidden = true;
+      } else {
+        state = I.defaults(); note.hidden = false; note.className = 'note';
+        note.textContent = 'Primeiro acesso: estes são os links de exemplo. Ajuste e toque em Salvar e publicar.';
+      }
+      fill(); markClean(r.data && r.data.dados ? 'Tudo publicado.' : 'Nada publicado ainda.');
+    });
+  }
+
+  /* ---------- login ---------- */
+  $('#loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var m = $('#loginMsg');
+    if (!sb) { m.textContent = 'Preencha o config.js primeiro.'; return; }
+    var email = $('#email').value.trim(), pass = $('#pass').value;
+    if (!email || !pass) { m.textContent = 'Digite e-mail e senha.'; return; }
+    $('#loginBtn').disabled = true; m.textContent = 'Entrando...';
+    sb.auth.signInWithPassword({ email: email, password: pass }).then(function (r) {
+      $('#loginBtn').disabled = false;
+      if (r.error) { m.textContent = 'E-mail ou senha incorretos.'; return; }
+      m.textContent = ''; $('#pass').value = ''; showEditor();
+    });
+  });
+  $('#logout').addEventListener('click', function () {
+    if (dirty && !window.__confirmLogout) {
+      window.__confirmLogout = true; $('#logout').textContent = 'Há mudanças. Sair mesmo?';
+      setTimeout(function () { window.__confirmLogout = false; $('#logout').textContent = 'Sair'; }, 4000);
+      return;
+    }
+    window.__confirmLogout = false; $('#logout').textContent = 'Sair';
+    sb.auth.signOut().then(function () { dirty = false; showLogin(); });
+  });
+
+  /* ---------- salvar ---------- */
+  $('#save').addEventListener('click', function () {
+    var b = $('#save'); b.disabled = true; b.textContent = 'Salvando...';
+    sb.from('pagina').upsert({ id: 1, dados: state, atualizado_em: new Date().toISOString() }).then(function (r) {
+      b.textContent = 'Salvar e publicar';
+      if (r.error) {
+        b.disabled = false;
+        var s = $('#saveState'); s.className = 'state dirty';
+        s.textContent = 'Não salvou. Entre de novo ou confira o e-mail liberado no supabase.sql. (' + r.error.message + ')';
+        return;
+      }
+      markClean('Publicado. A página já está atualizada.');
+    });
+  });
+  window.addEventListener('beforeunload', function (e) { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+  /* ---------- formulários ---------- */
+  function fill() {
+    $('#f-name').value = state.name || ''; $('#f-tag').value = state.tagline || '';
+    renderBgs(); renderList();
+  }
+
+  function renderBgs() {
+    var h = '';
+    [['bg1', 'assets/bg1.jpg', 'Fundo cortina'], ['bg2', 'assets/bg2.jpg', 'Fundo ondas']].forEach(function (b) {
+      h += '<button type="button" class="bgp" data-bg="' + b[0] + '" aria-pressed="' + (state.bg === b[0]) + '" aria-label="' + b[2] + '"><img alt="" src="' + b[1] + '"></button>';
+    });
+    if (state.custom) h += '<button type="button" class="bgp" data-bg="custom" aria-pressed="' + (state.bg === 'custom') + '" aria-label="Sua foto"><img alt="" src="' + state.custom + '"></button>';
+    h += '<label class="up" for="f-up"><span>Enviar sua foto</span><input id="f-up" type="file" accept="image/*"></label>';
+    $('#bgs').innerHTML = h;
+  }
+
+  function renderList(focusId) {
+    var n = state.links.length;
+    $('#list').innerHTML = state.links.map(function (l, i) {
+      var icons = Object.keys(I.ICONS).map(function (k) {
+        return '<button type="button" class="pick" data-act="icon" data-v="' + k + '" aria-pressed="' + (l.icon === k) + '" aria-label="' + I.ICON_LABEL[k] + '">' + I.svg(k) + '</button>';
+      }).join('');
+      var styles = I.STYLES.map(function (s) {
+        return '<button type="button" class="sw s-' + s[0] + '" data-act="style" data-v="' + s[0] + '" aria-pressed="' + (l.style === s[0]) + '" aria-label="Cor ' + s[1] + '"></button>';
+      }).join('');
+      return '<article class="box" data-id="' + l.id + '">' +
+        '<div class="row-top"><span class="mini s-' + I.esc(l.style) + '">' + I.svg(l.icon) + '</span>' +
+        '<div class="ttl">' + I.esc(l.title || 'Sem título') + '<small>' + (l.visible ? 'Visível' : 'Escondido') + '</small></div>' +
+        '<button type="button" class="ibtn" data-act="up" aria-label="Subir"' + (i === 0 ? ' disabled' : '') + '>' + UP + '</button>' +
+        '<button type="button" class="ibtn" data-act="down" aria-label="Descer"' + (i === n - 1 ? ' disabled' : '') + '>' + DOWN + '</button>' +
+        '<button type="button" class="ibtn" data-act="del" aria-label="Remover">' + TRASH + '</button></div>' +
+        '<label class="fld" for="t-' + l.id + '"><span>Título</span><input id="t-' + l.id + '" type="text" data-f="title" value="' + I.esc(l.title) + '" autocomplete="off"></label>' +
+        '<label class="fld" for="s-' + l.id + '"><span>Texto de apoio</span><input id="s-' + l.id + '" type="text" data-f="sub" value="' + I.esc(l.sub) + '" autocomplete="off"></label>' +
+        '<label class="fld" for="u-' + l.id + '"><span>Endereço do link (vazio vira só um aviso)</span><input id="u-' + l.id + '" type="text" inputmode="url" data-f="url" value="' + I.esc(l.url) + '" placeholder="https://" autocomplete="off"></label>' +
+        '<div class="fld"><span class="lab">Ícone</span><div class="picks">' + icons + '</div></div>' +
+        '<div class="fld"><span class="lab">Cor do banner</span><div class="picks">' + styles + '</div></div>' +
+        '<label class="vis" for="v-' + l.id + '"><input id="v-' + l.id + '" type="checkbox" data-f="visible"' + (l.visible ? ' checked' : '') + '> Mostrar na página</label>' +
+        '</article>';
+    }).join('');
+    if (focusId) { var el = document.getElementById('t-' + focusId); if (el) { el.focus(); el.select(); el.scrollIntoView({ block: 'center' }); } }
+  }
+
+  $('#list').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var id = b.closest('[data-id]').getAttribute('data-id'), i = byId(id); if (i < 0) return;
+    var act = b.getAttribute('data-act'), l = state.links[i];
+    if (act === 'icon') l.icon = b.getAttribute('data-v');
+    else if (act === 'style') l.style = b.getAttribute('data-v');
+    else if (act === 'up' && i > 0) state.links.splice(i - 1, 0, state.links.splice(i, 1)[0]);
+    else if (act === 'down' && i < state.links.length - 1) state.links.splice(i + 1, 0, state.links.splice(i, 1)[0]);
+    else if (act === 'del') {
+      lastDeleted = { link: l, index: i }; state.links.splice(i, 1); renderList(); markDirty();
+      setStatus('Link removido. <button type="button" id="undo">Desfazer</button>', true); return;
+    }
+    renderList(); markDirty();
+  });
+  $('#list').addEventListener('input', function (e) {
+    var f = e.target.getAttribute && e.target.getAttribute('data-f'); if (!f || f === 'visible') return;
+    var art = e.target.closest('[data-id]'), i = byId(art.getAttribute('data-id')); if (i < 0) return;
+    state.links[i][f] = e.target.value;
+    if (f === 'title') art.querySelector('.ttl').firstChild.nodeValue = e.target.value || 'Sem título';
+    markDirty();
+  });
+  $('#list').addEventListener('change', function (e) {
+    if (e.target.getAttribute('data-f') !== 'visible') return;
+    var art = e.target.closest('[data-id]'), i = byId(art.getAttribute('data-id')); if (i < 0) return;
+    state.links[i].visible = e.target.checked;
+    art.querySelector('.ttl small').textContent = e.target.checked ? 'Visível' : 'Escondido';
+    markDirty();
+  });
+  $('#status').addEventListener('click', function (e) {
+    if (e.target.id === 'undo' && lastDeleted) {
+      state.links.splice(lastDeleted.index, 0, lastDeleted.link); lastDeleted = null; setStatus(''); renderList(); markDirty();
+    }
+  });
+  $('#add').addEventListener('click', function () {
+    var l = { id: I.uid(), title: 'Novo link', sub: '', url: '', icon: 'link', style: 'cafe', visible: true };
+    state.links.push(l); renderList(l.id); markDirty();
+  });
+  $('#f-name').addEventListener('input', function (e) { state.name = e.target.value; markDirty(); });
+  $('#f-tag').addEventListener('input', function (e) { state.tagline = e.target.value; markDirty(); });
+  $('#bgs').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-bg]'); if (!b) return;
+    state.bg = b.getAttribute('data-bg'); renderBgs(); markDirty();
+  });
+  $('#bgs').addEventListener('change', function (e) {
+    if (e.target.id !== 'f-up' || !e.target.files || !e.target.files[0]) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var max = 900, sc = Math.min(1, max / Math.max(im.width, im.height));
+        var c = document.createElement('canvas'); c.width = Math.round(im.width * sc); c.height = Math.round(im.height * sc);
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        state.custom = c.toDataURL('image/jpeg', 0.82); state.bg = 'custom'; renderBgs(); markDirty();
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(e.target.files[0]);
+  });
+
+  /* ---------- atalhos ---------- */
+  function linkByIcon(icon, fallback) {
+    for (var i = 0; i < state.links.length; i++) if (state.links[i].icon === icon) return state.links[i];
+    var l = Object.assign({ id: I.uid(), sub: '', url: '', icon: icon, style: 'cafe', visible: true }, fallback);
+    state.links.unshift(l); return l;
+  }
+  $('#sc-wa').addEventListener('click', function () {
+    var num = $('#sc-num').value.replace(/\D/g, '');
+    if (num.length < 10) { setStatus('Digite o número com DDD, por exemplo (11) 99999-9999.'); return; }
+    if (num.length <= 11) num = '55' + num;
+    var msg = $('#sc-msg').value.trim();
+    var l = linkByIcon('whatsapp', { title: 'WhatsApp', sub: 'Fale com a gente', style: 'cobre' });
+    l.url = 'https://wa.me/' + num + (msg ? '?text=' + encodeURIComponent(msg) : '');
+    renderList(); markDirty(); setStatus('Botão do WhatsApp atualizado. Falta salvar e publicar.');
+  });
+  $('#sc-map').addEventListener('click', function () {
+    var addr = $('#sc-addr').value.trim();
+    if (!addr) { setStatus('Digite o endereço da loja.'); return; }
+    var l = linkByIcon('pin', { title: 'Localização', sub: 'Como chegar', style: 'creme' });
+    l.url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(addr);
+    renderList(); markDirty(); setStatus('Botão de localização atualizado. Falta salvar e publicar.');
+  });
+
+  /* ---------- início ---------- */
+  if (!sb) { showLogin(); return; }
+  sb.auth.getSession().then(function (r) {
+    if (r.data && r.data.session) showEditor(); else showLogin();
+  });
+})();
+</script>
+</body>
+</html>
