@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ISIA MOTION | Links</title>
+<meta name="description" content="WhatsApp, localização e loja online da ISIA MOTION.">
+<meta name="theme-color" content="#150a06">
+<meta property="og:title" content="ISIA MOTION">
+<meta property="og:description" content="WhatsApp, localização e loja online da ISIA MOTION.">
+<meta property="og:image" content="assets/bg2.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23150a06'/%3E%3Cpath d='M50 12C50 12 24 44 24 63a26 26 0 0 0 52 0C76 44 50 12 50 12Z' fill='none' stroke='%23f6e6d3' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@500;700;800&display=swap">
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<main class="page">
+  <header class="hero"><img id="heroImg" alt="Logo ISIA MOTION" src="assets/bg2.jpg"></header>
+  <div class="inner">
+    <div class="ident">
+      <h1 id="name">ISIA MOTION</h1>
+      <p class="tag" id="tag"></p>
+      <div class="rule"></div>
+    </div>
+    <nav class="cards" id="cards" aria-label="Links da loja"></nav>
+    <p class="foot" id="foot"></p>
+  </div>
+</main>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="shared.js"></script>
+<script>
+(function () {
+  var CACHE = 'isia-cache-v1';
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(CACHE)); } catch (e) {}
+  /* Mostra na hora o último conteúdo conhecido; depois confere no banco. */
+  ISIA.renderPage(ISIA.normalize(cached));
+
+  var sb = ISIA.client();
+  if (!sb) return;
+  sb.from('pagina').select('dados').eq('id', 1).maybeSingle().then(function (r) {
+    if (r.error || !r.data || !r.data.dados) return;
+    var s = ISIA.normalize(r.data.dados);
+    ISIA.renderPage(s);
+    try { localStorage.setItem(CACHE, JSON.stringify(s)); } catch (e) {}
+  });
+})();
+</script>
+</body>
+</html>
